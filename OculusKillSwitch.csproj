@@ -14,6 +14,8 @@
     <Description>Toggle Oculus Killer, making it possible to still play games in your Oculus library, if you have any.</Description>
     <PackageProjectUrl>https://github.com/kckarnige/OculusKillSwitch</PackageProjectUrl>
     <Copyright>©️ KayoticCarnige 2023</Copyright>
+    <Version>1.5.0</Version>
+    <FileVersion>1.5.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
