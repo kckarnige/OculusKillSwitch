@@ -2,6 +2,7 @@
 
 using System.IO;
 using System.Security.Cryptography;
+using System.Windows;
 
 static class Program
 {
@@ -18,18 +19,35 @@ static class Program
 
         }
     }
+
     static void Main()
     {
+        Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+        string fileHash = GetMD5Hash("OculusDash.exe");
+        string killerEnabled;
 
-        var fileHash = GetMD5Hash("OculusDash.exe");
-        DialogResult Dialog0 = MessageBox.Show("Enable Oculus Killer?", "Oculus Kill Switch", MessageBoxButtons.OKCancel);
+        if (fileHash == "9DB7CC8B646A01C60859B318F85E65D0") {
+            killerEnabled = "enabled.";
+        } else
+        {
+            killerEnabled = "disabled.";
+        } ;
+        DialogResult Dialog0 = MessageBox.Show("Toggle Oculus Killer?\n" + "It's currently " + killerEnabled, "Oculus Kill Switch", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
         if (Dialog0 == DialogResult.OK)
         {
-            MessageBox.Show("YOU'RE A KILLER!", "Oculus Kill Switch", MessageBoxButtons.OK);
-        }
-        else if (Dialog0 == DialogResult.Cancel)
-        {
-            MessageBox.Show(fileHash, "Oculus Kill Switch", MessageBoxButtons.OK);
+            if (fileHash != "9DB7CC8B646A01C60859B318F85E65D0")
+            {
+                File.Move("OculusDash.exe.bak", "tempkill.exe");
+                File.Move("OculusDash.exe", "OculusDash.exe.bak");
+                File.Move("tempkill.exe", "OculusDash.exe");
+                MessageBox.Show("Successfully enabled the Oculus Killer!", "Oculus Kill Switch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            } else
+            {
+                File.Move("OculusDash.exe.bak", "tempkill.exe");
+                File.Move("OculusDash.exe", "OculusDash.exe.bak");
+                File.Move("tempkill.exe", "OculusDash.exe");
+                MessageBox.Show("Successfully disabled the Oculus Killer!", "Oculus Kill Switch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
     }    
