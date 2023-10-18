@@ -17,6 +17,6 @@
 
 2. [Download](https://github.com/kckarnige/OculusKillSwitch/releases) Oculus Kill Switch
 
-3. Move it to the same directory where you installed Oculus Killer, should at `C:\Program Files\Oculus\Support\oculus-dash\dash\bin` by default.
+3. Move it to the same directory where you installed Oculus Killer, should be at `C:\Program Files\Oculus\Support\oculus-dash\dash\bin` by default.
 
 4. That's it, just make sure to make a shortcut to it so you can access it at any time!
