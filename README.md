@@ -4,7 +4,9 @@
 </p>
 <h1 align="center"> Oculus Kill Switch </h1>
 
-<h3 align="center">Toggle Oculus Killer, making it possible to still play your Oculus games, incase you have any.</h3>
+<h3 align="center">Toggle Oculus Killer to play your Oculus games.</h3>
+
+<br>
 
 > _This program was made with the assumption that you followed the [Oculus Killer install guide](https://github.com/LibreQuest/OculusKiller#installation), and backed up your Oculus Dash executable as `OculusDash.exe.bak` as per the instructions._
 
