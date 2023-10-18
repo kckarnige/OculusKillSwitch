@@ -51,7 +51,7 @@ static class Program
             }
             else if (activeFileHash == "DD65C6B1E5578AE812966798101F1379")
             {
-                DialogResult Dialog1 = MessageBox.Show("The Oculus Killer isn't installed, or the backup file has been renamed. Would you like for me to download it for you?", "Oculus Kill Switch", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+                DialogResult Dialog1 = MessageBox.Show("The Oculus Killer isn't installed, or the backup file has been renamed. Would you like for me to download it for you?", "Oculus Kill Switch", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (Dialog1 == DialogResult.Yes)
                 {
                     using (WebClient client = new WebClient())
