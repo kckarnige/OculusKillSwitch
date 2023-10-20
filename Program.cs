@@ -4,9 +4,14 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Diagnostics;
 using System.Net;
+using IniParser;
+using IniParser.Model;
+using Ookii.Dialogs.Wpf;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 static class Program
 {
+
     static string GetMD5Hash(string filePath)
     {
         using (var fileStream = new FileStream(filePath,
@@ -21,11 +26,33 @@ static class Program
         }
     }
 
+    static void MakeConfig()
+    {
+        if (File.Exists("OculusKillSwitch.ini") != true)
+        {
+            File.Create("OculusKillSwitch.ini").Close();
+        }
+        var parser = new FileIniDataParser();
+        IniData configdata = parser.ReadFile("OculusKillSwitch.ini");
+        if (new FileInfo("OculusKillSwitch.ini").Length == 0)
+        {
+            configdata["OculusKillSwitch"]["IgnoreOculusClient"] = "false";
+            parser.WriteFile("OculusKillSwitch.ini", configdata);
+        }
+    }
+
     static void Main()
     {
+        MakeConfig();
         Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
         Process[] DashCheck = Process.GetProcessesByName("OculusDash");
-        if (DashCheck.Length > 0 != true)
+        Process[] SteamVRCheck = Process.GetProcessesByName("vrmonitor");
+        Process[] OculusAppCheck = Process.GetProcessesByName("OculusClient");
+
+        var parser = new FileIniDataParser();
+        IniData configdata = parser.ReadFile("OculusKillSwitch.ini");
+
+        if (DashCheck.Length > 0 != true && SteamVRCheck.Length > 0 != true)
         {
             string activeFileHash;
             string backupFileHash;
@@ -39,7 +66,12 @@ static class Program
                 whoops = true;
                 activeFileHash = "null";
                 Process.Start("explorer.exe", @"C:\Program Files\Oculus\Support\oculus-dash\dash\bin");
-                MessageBox.Show("I'm not in the right directory, I go here.\nAfter I close, would you please move me?", "Oculus Kill Switch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                DialogResult nuhuhbox = MessageBox.Show("I'm not in the right directory, I go here.\nAfter I close, would you please move me?", "Oculus Kill Switch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                if (nuhuhbox == DialogResult.OK)
+                {
+                    whoops = true;
+                    Application.Exit();
+                }
             }
             try
             {
@@ -64,6 +96,33 @@ static class Program
 
                     }
                 }
+            }
+            if (OculusAppCheck.Length > 0 == true && configdata["OculusKillSwitch"]["IgnoreOculusClient"] != "true" && whoops == false)
+            {
+                using (TaskDialog dialog = new TaskDialog())
+                {
+                    TaskDialogButton butOK = new TaskDialogButton(ButtonType.Ok);
+                    TaskDialogButton butCancel = new TaskDialogButton(ButtonType.Cancel);
+                    dialog.VerificationText = "Dont Show Again";
+                    dialog.WindowTitle = "Oculus Kill Switch";
+                    dialog.Content = "For safety reasons, I'm here to warn you of switching while in VR because I can't detect anything but the Oculus Client being open.\n\nIf you just took off your headset to switch, please make sure to save your game before either closing or restarting (Recommended) the Oculus app.\nIf all you did was open the Oculus app, you may continue, otherwise, click 'Cancel' to close this prompt and come back after you saved your progress.";
+                    dialog.MainIcon = TaskDialogIcon.Warning;
+                    dialog.Buttons.Add(butOK);
+                    dialog.Buttons.Add(butCancel);
+                    dialog.ExpandFooterArea = false;
+                    TaskDialogButton result = dialog.ShowDialog();
+                    if (dialog.IsVerificationChecked)
+                    {
+                        configdata["OculusKillSwitch"]["IgnoreOculusClient"] = "true";
+                        parser.WriteFile("OculusKillSwitch.ini", configdata);
+                    }
+                    if (result == butCancel)
+                    {
+                        whoops = true;
+                        Application.Exit();
+                    }
+                }
+
             }
             string killerEnabled;
 
@@ -90,18 +149,17 @@ static class Program
             // It'll be fiiiiiine
             if (Dialog0 == DialogResult.OK)
             {
+
+                File.Move("OculusDash.exe.bak", "tempkill.exe");
+                File.Move("OculusDash.exe", "OculusDash.exe.bak");
+                File.Move("tempkill.exe", "OculusDash.exe");
+
                 if (activeFileHash != "9DB7CC8B646A01C60859B318F85E65D0")
                 {
-                    File.Move("OculusDash.exe.bak", "tempkill.exe");
-                    File.Move("OculusDash.exe", "OculusDash.exe.bak");
-                    File.Move("tempkill.exe", "OculusDash.exe");
                     MessageBox.Show("Successfully enabled the Oculus Killer!", "Oculus Kill Switch", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    File.Move("OculusDash.exe.bak", "tempkill.exe");
-                    File.Move("OculusDash.exe", "OculusDash.exe.bak");
-                    File.Move("tempkill.exe", "OculusDash.exe");
                     MessageBox.Show("Successfully disabled the Oculus Killer!", "Oculus Kill Switch", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
