@@ -4,7 +4,7 @@
 </p>
 <h1 align="center"> Oculus Kill Switch </h1>
 
-<h3 align="center">Toggle Oculus Killer to play your Oculus games.</h3>
+<h3 align="center">Toggle Oculus Killer and play your Oculus games.</h3>
 
 <br>
 

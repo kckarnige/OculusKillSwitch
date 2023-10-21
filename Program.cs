@@ -7,11 +7,12 @@ using System.Net;
 using IniParser;
 using IniParser.Model;
 using Ookii.Dialogs.Wpf;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
+using IWshRuntimeLibrary;
+using Windows.Foundation.Diagnostics;
+using System.Configuration;
 
 static class Program
 {
-
     static string GetMD5Hash(string filePath)
     {
         using (var fileStream = new FileStream(filePath,
@@ -19,18 +20,90 @@ static class Program
                                                    FileAccess.Read,
                                                    FileShare.ReadWrite))
         {
-            byte[] hash = File.ReadAllBytes(filePath);
+            byte[] hash = System.IO.File.ReadAllBytes(filePath);
             byte[] hashValue = MD5.HashData(hash);
             return Convert.ToHexString(hashValue);
 
         }
     }
 
+    static void MakeShortcut()
+    {
+        var parser = new FileIniDataParser();
+        IniData configdata = parser.ReadFile("OculusKillSwitch.ini");
+        var startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        var shell = new WshShell();
+        var shortCutLinkFilePath = startupFolderPath + "\\Oculus Kill Switch.lnk";
+
+
+        string[] fileArray = Directory.GetFiles(startupFolderPath);
+        List<string> fileHashList = new();
+        for (int i = 0; i < fileArray.Length; i++)
+        {
+            if (GetMD5Hash(fileArray[i]) != (configdata["OculusKillSwitch"]["ShortcutHash"] ?? "placeholder"))
+            {
+                fileHashList.Add(GetMD5Hash(fileArray[i]));
+            }
+            if (i == fileArray.Length)
+            {
+                Console.WriteLine("AH!");
+            }
+
+        }
+        try
+        {
+            if (fileHashList.Count == fileArray.Length && configdata["OculusKillSwitch"]["DontShowShortcutDialog"] != "true")
+            {
+                using (TaskDialog dialog = new TaskDialog())
+                {
+                    TaskDialogButton butYes = new TaskDialogButton(ButtonType.Yes);
+                    TaskDialogButton butNo = new TaskDialogButton(ButtonType.No);
+                    dialog.WindowTitle = "Oculus Kill Switch";
+                    dialog.Content = "Do you want me to make a shortcut?";
+                    dialog.MainIcon = TaskDialogIcon.Information;
+                    dialog.VerificationText = "Don't Show Again";
+                    dialog.Buttons.Add(butYes);
+                    dialog.Buttons.Add(butNo);
+                    dialog.CenterParent = false;
+                    TaskDialogButton result = dialog.ShowDialog();
+                    if (dialog.IsVerificationChecked && result == butNo)
+                    {
+                        configdata["OculusKillSwitch"]["DontShowShortcutDialog"] = "true";
+                        parser.WriteFile("OculusKillSwitch.ini", configdata);
+                    }
+                    if (result == butYes)
+                    {
+                        var windowsApplicationShortcut = (IWshShortcut)shell.CreateShortcut(shortCutLinkFilePath);
+                        windowsApplicationShortcut.Description = "Toggle Oculus Killer and play your Oculus games";
+                        windowsApplicationShortcut.WorkingDirectory = Application.StartupPath;
+                        windowsApplicationShortcut.TargetPath = Application.ExecutablePath;
+                        windowsApplicationShortcut.Save();
+                        configdata["OculusKillSwitch"]["ShortcutHash"] = GetMD5Hash(shortCutLinkFilePath);
+                        parser.WriteFile("OculusKillSwitch.ini", configdata);
+                        Console.WriteLine("File Array Count: " + fileArray.Length);
+                        Console.WriteLine("Hash Array Count: " + fileHashList.Count);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("File Array Count: " + fileArray.Length);
+                Console.WriteLine("Hash Array Count: " + fileHashList.Count);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            Application.Exit();
+        }
+
+    }
+
     static void MakeConfig()
     {
-        if (File.Exists("OculusKillSwitch.ini") != true)
+        if (System.IO.File.Exists("OculusKillSwitch.ini") != true)
         {
-            File.Create("OculusKillSwitch.ini").Close();
+            System.IO.File.Create("OculusKillSwitch.ini").Close();
         }
         var parser = new FileIniDataParser();
         IniData configdata = parser.ReadFile("OculusKillSwitch.ini");
@@ -60,9 +133,12 @@ static class Program
             try
             {
                 activeFileHash = GetMD5Hash("OculusDash.exe");
+                MakeShortcut();
+
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 whoops = true;
                 activeFileHash = "null";
                 Process.Start("explorer.exe", @"C:\Program Files\Oculus\Support\oculus-dash\dash\bin");
@@ -103,13 +179,13 @@ static class Program
                 {
                     TaskDialogButton butOK = new TaskDialogButton(ButtonType.Ok);
                     TaskDialogButton butCancel = new TaskDialogButton(ButtonType.Cancel);
-                    dialog.VerificationText = "Dont Show Again";
+                    dialog.VerificationText = "Don't Show Again";
                     dialog.WindowTitle = "Oculus Kill Switch";
                     dialog.Content = "For safety reasons, I'm here to warn you of switching while in VR because I can't detect anything but the Oculus Client being open.\n\nIf you just took off your headset to switch, please make sure to save your game before either closing or restarting (Recommended) the Oculus app.\nIf all you did was open the Oculus app, you may continue, otherwise, click 'Cancel' to close this prompt and come back after you saved your progress.";
                     dialog.MainIcon = TaskDialogIcon.Warning;
                     dialog.Buttons.Add(butOK);
                     dialog.Buttons.Add(butCancel);
-                    dialog.ExpandFooterArea = false;
+                    dialog.CenterParent = false;
                     TaskDialogButton result = dialog.ShowDialog();
                     if (dialog.IsVerificationChecked)
                     {
@@ -150,9 +226,9 @@ static class Program
             if (Dialog0 == DialogResult.OK)
             {
 
-                File.Move("OculusDash.exe.bak", "tempkill.exe");
-                File.Move("OculusDash.exe", "OculusDash.exe.bak");
-                File.Move("tempkill.exe", "OculusDash.exe");
+                System.IO.File.Move("OculusDash.exe.bak", "tempkill.exe");
+                System.IO.File.Move("OculusDash.exe", "OculusDash.exe.bak");
+                System.IO.File.Move("tempkill.exe", "OculusDash.exe");
 
                 if (activeFileHash != "9DB7CC8B646A01C60859B318F85E65D0")
                 {
