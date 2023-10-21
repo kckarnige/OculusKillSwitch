@@ -8,8 +8,6 @@ using IniParser;
 using IniParser.Model;
 using Ookii.Dialogs.Wpf;
 using IWshRuntimeLibrary;
-using Windows.Foundation.Diagnostics;
-using System.Configuration;
 
 static class Program
 {
@@ -38,21 +36,9 @@ static class Program
 
         string[] fileArray = Directory.GetFiles(startupFolderPath);
         List<string> fileHashList = new();
-        for (int i = 0; i < fileArray.Length; i++)
-        {
-            if (GetMD5Hash(fileArray[i]) != (configdata["OculusKillSwitch"]["ShortcutHash"] ?? "placeholder"))
-            {
-                fileHashList.Add(GetMD5Hash(fileArray[i]));
-            }
-            if (i == fileArray.Length)
-            {
-                Console.WriteLine("AH!");
-            }
-
-        }
         try
         {
-            if (fileHashList.Count == fileArray.Length && configdata["OculusKillSwitch"]["DontShowShortcutDialog"] != "true")
+            if (configdata["OculusKillSwitch"]["DontShowShortcutDialog"] != "true")
             {
                 using (TaskDialog dialog = new TaskDialog())
                 {
@@ -73,22 +59,15 @@ static class Program
                     }
                     if (result == butYes)
                     {
+                        configdata["OculusKillSwitch"]["DontShowShortcutDialog"] = "true";
                         var windowsApplicationShortcut = (IWshShortcut)shell.CreateShortcut(shortCutLinkFilePath);
                         windowsApplicationShortcut.Description = "Toggle Oculus Killer and play your Oculus games";
                         windowsApplicationShortcut.WorkingDirectory = Application.StartupPath;
                         windowsApplicationShortcut.TargetPath = Application.ExecutablePath;
                         windowsApplicationShortcut.Save();
-                        configdata["OculusKillSwitch"]["ShortcutHash"] = GetMD5Hash(shortCutLinkFilePath);
                         parser.WriteFile("OculusKillSwitch.ini", configdata);
-                        Console.WriteLine("File Array Count: " + fileArray.Length);
-                        Console.WriteLine("Hash Array Count: " + fileHashList.Count);
                     }
                 }
-            }
-            else
-            {
-                Console.WriteLine("File Array Count: " + fileArray.Length);
-                Console.WriteLine("Hash Array Count: " + fileHashList.Count);
             }
         }
         catch (Exception ex)
@@ -110,6 +89,7 @@ static class Program
         if (new FileInfo("OculusKillSwitch.ini").Length == 0)
         {
             configdata["OculusKillSwitch"]["IgnoreOculusClient"] = "false";
+            configdata["OculusKillSwitch"]["DontShowShortcutDialog"] = "false";
             parser.WriteFile("OculusKillSwitch.ini", configdata);
         }
     }
