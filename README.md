@@ -19,6 +19,6 @@
 
 2. Move it to where your Oculus Dash is located, should be at `C:\Program Files\Oculus\Support\oculus-dash\dash\bin` by default.
 
-3. Run it, it should ask to make a shortcut for you and ask to download Oculus Killer for you.
+3. Run it, it should ask to make a desktop shortcut for you and ask to download Oculus Killer (if you don't already have it installed).
 
 4. That's it, run it again and enjoy!
