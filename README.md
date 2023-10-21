@@ -15,10 +15,10 @@
 
 ## Installation
 
-1. Make sure you follow the [Oculus Killer install guide](https://github.com/LibreQuest/OculusKiller#installation) <u>***exactly***</u>, filenames and all.
+1. [Download](https://github.com/kckarnige/OculusKillSwitch/releases) Oculus Kill Switch
 
-2. [Download](https://github.com/kckarnige/OculusKillSwitch/releases) Oculus Kill Switch
+2. Move it to where your Oculus Dash is located, should be at `C:\Program Files\Oculus\Support\oculus-dash\dash\bin` by default.
 
-3. Move it to the same directory where you installed Oculus Killer, should be at `C:\Program Files\Oculus\Support\oculus-dash\dash\bin` by default.
+3. Run it, it should ask to make a shortcut for you and ask to download Oculus Killer for you.
 
-4. That's it, just make sure to make a shortcut to it so you can access it at any time!
+4. That's it, run it again and enjoy!
