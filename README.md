@@ -1,3 +1,4 @@
+
 <h3 align="center"></h3>
 <p align="center">
     <picture>
@@ -5,7 +6,7 @@
         <img alt="iCon" src="./icon.png" width="256px">
     </picture> 
 </p>
-<h1 align="center"> Oculus Kill Switch </h1>
+<h1 align="center">Oculus Kill Switch</h1>
 
 <h3 align="center">Toggle Oculus Killer and play your Oculus games.</h3>
 
