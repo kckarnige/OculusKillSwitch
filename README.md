@@ -23,3 +23,11 @@
 3. Run it, it should ask to make a desktop shortcut for you and ask to download Oculus Killer (if you don't already have it installed).
 
 4. That's it, if it closes, run it again and enjoy!
+
+## Libraries Used
+
+- [*Mayerch1/GithubUpdateCheck*](https://github.com/Mayerch1/GithubUpdateCheck) - Used for checking GitHub releases
+
+- [*rickyah/ini-parser*](https://github.com/rickyah/ini-parser) - Used for parsing the INI file
+
+- [*ookii-dialogs/ookii-dialogs-wpf*](https://github.com/ookii-dialogs/ookii-dialogs-wpf) - Used for more Windows dialog options

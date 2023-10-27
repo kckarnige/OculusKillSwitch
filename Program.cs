@@ -8,9 +8,15 @@ using IniParser;
 using IniParser.Model;
 using Ookii.Dialogs.Wpf;
 using IWshRuntimeLibrary;
+using Mayerch1.GithubUpdateCheck;
+
+
 
 static class Program
 {
+    // #### Oculus Kill Switch Version ####
+    static readonly string AppVersion = "1.6.5";
+
     static string GetMD5Hash(string filePath)
     {
         using (var fileStream = new FileStream(filePath,
@@ -61,7 +67,7 @@ static class Program
                     {
                         configdata["OculusKillSwitch"]["DontShowShortcutDialog"] = "true";
                         var windowsApplicationShortcut = (IWshShortcut)shell.CreateShortcut(shortCutLinkFilePath);
-                        windowsApplicationShortcut.Description = "Toggle Oculus Killer and play your Oculus games";
+                        windowsApplicationShortcut.Description = "Toggle Oculus Killer and play your Oculus games.";
                         windowsApplicationShortcut.WorkingDirectory = Application.StartupPath;
                         windowsApplicationShortcut.TargetPath = Application.ExecutablePath;
                         windowsApplicationShortcut.Save();
@@ -90,7 +96,47 @@ static class Program
         {
             configdata["OculusKillSwitch"]["IgnoreOculusClient"] = "false";
             configdata["OculusKillSwitch"]["DontShowShortcutDialog"] = "false";
+            configdata["OculusKillSwitch"]["IgnoreUpdate"] = "false";
             parser.WriteFile("OculusKillSwitch.ini", configdata);
+        }
+    }
+
+    static void CheckForUpdate()
+    {
+        var parser = new FileIniDataParser();
+        IniData configdata = parser.ReadFile("OculusKillSwitch.ini");
+        var startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        var shell = new WshShell();
+        var shortCutLinkFilePath = startupFolderPath + "\\Oculus Kill Switch.lnk";
+        string[] fileArray = Directory.GetFiles(startupFolderPath);
+        GithubUpdateCheck update = new GithubUpdateCheck("kckarnige", "OculusKillSwitch");
+        bool isUpdate = update.IsUpdateAvailable(AppVersion, VersionChange.Revision);
+
+        if (isUpdate && configdata["OculusKillSwitch"]["IgnoreUpdate"] != "true")
+        {
+            using (TaskDialog dialog = new TaskDialog())
+            {
+                TaskDialogButton butYes = new TaskDialogButton(ButtonType.Yes);
+                TaskDialogButton butNo = new TaskDialogButton(ButtonType.No);
+                dialog.WindowTitle = "Oculus Kill Switch";
+                dialog.Content = "Looks like there's a new update, wanna check it out?";
+                dialog.MainIcon = TaskDialogIcon.Information;
+                dialog.VerificationText = "Don't Show Again";
+                dialog.Buttons.Add(butYes);
+                dialog.Buttons.Add(butNo);
+                dialog.CenterParent = false;
+                TaskDialogButton result = dialog.ShowDialog();
+                if (dialog.IsVerificationChecked && result == butNo)
+                {
+                    configdata["OculusKillSwitch"]["IgnoreUpdate"] = "true";
+                    parser.WriteFile("OculusKillSwitch.ini", configdata);
+                }
+                if (result == butYes)
+                {
+                    Process.Start("explorer.exe", @"https://github.com/kckarnige/OculusKillSwitch");
+                    Application.Exit();
+                }
+            }
         }
     }
 
@@ -98,6 +144,7 @@ static class Program
     {
         MakeConfig();
         Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+        CheckForUpdate();
         Process[] DashCheck = Process.GetProcessesByName("OculusDash");
         Process[] SteamVRCheck = Process.GetProcessesByName("vrmonitor");
         Process[] OculusAppCheck = Process.GetProcessesByName("OculusClient");
