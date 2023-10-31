@@ -20,7 +20,7 @@
 
 2. Download *([x64](https://github.com/kckarnige/OculusKillSwitch/releases/latest/download/OculusKillSwitch.exe) / [x86](https://github.com/kckarnige/OculusKillSwitch/releases/latest/download/OculusKillSwitch-x86.exe))* Oculus Kill Switch, and move it to where your Oculus Dash is located, should be at `C:\Program Files\Oculus\Support\oculus-dash\dash\bin` by default.
 
-3. Run it, it should ask to make a desktop shortcut for you and ask to download Oculus Killer (if you don't already have it installed).
+3. Run it, it should ask to make a desktop shortcut for you and ask to download [Oculus Killer](https://github.com/kaitlyndotmoe/OculusKiller) (if you don't already have it installed).
 
 4. That's it, if it closes, run it again and enjoy!
 

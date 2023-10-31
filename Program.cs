@@ -194,7 +194,7 @@ static class Program
                     {
                         using (WebClient client = new WebClient())
                         {
-                            client.DownloadFile("https://github.com/LibreQuest/OculusKiller/releases/latest/download/OculusDash.exe", "OculusDash.exe.bak");
+                            client.DownloadFile("https://github.com/kaitlyndotmoe/OculusKiller/releases/latest/download/OculusDash.exe", "OculusDash.exe.bak");
                         }
 
                     }
