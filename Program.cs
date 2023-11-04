@@ -15,7 +15,7 @@ using Mayerch1.GithubUpdateCheck;
 static class Program
 {
     // #### Oculus Kill Switch Version ####
-    static readonly string AppVersion = "1.6.5";
+    static readonly string AppVersion = "1.6.6";
 
     static string GetMD5Hash(string filePath)
     {
