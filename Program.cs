@@ -200,6 +200,11 @@ static class Program
                             client.DownloadFile("https://github.com/kaitlyndotmoe/OculusKiller/releases/latest/download/OculusDash.exe", "OculusDash.exe.bak");
                         }
 
+                    } else
+                    {
+                        whoops = true;
+                        Console.WriteLine("NO KILLER");
+                        Application.Exit();
                     }
                 }
             }
