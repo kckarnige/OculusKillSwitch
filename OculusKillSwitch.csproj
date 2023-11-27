@@ -12,8 +12,8 @@
     <Description>A tool for people who use Oculus Killer that still have Oculus games they'd like to play.</Description>
     <PackageProjectUrl>https://github.com/kckarnige/OculusKillSwitch</PackageProjectUrl>
     <Copyright>©️ KayoticCarnige 2023</Copyright>
-    <Version>1.6.5</Version>
-    <FileVersion>1.6.5.0</FileVersion>
+    <Version>1.6.7</Version>
+    <FileVersion>1.6.7.0</FileVersion>
     <PackageIcon></PackageIcon>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>

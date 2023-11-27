@@ -15,7 +15,7 @@ using Mayerch1.GithubUpdateCheck;
 static class Program
 {
     // #### Oculus Kill Switch Version ####
-    static readonly string AppVersion = "1.6.6";
+    static readonly string AppVersion = "1.6.7";
 
     static string GetMD5Hash(string filePath)
     {
@@ -167,12 +167,14 @@ static class Program
             {
                 Console.WriteLine(ex);
                 whoops = true;
+                Console.WriteLine("WRONG LOCATION/DASH NOT PRESENT");
                 activeFileHash = "null";
                 Process.Start("explorer.exe", @"C:\Program Files\Oculus\Support\oculus-dash\dash\bin");
                 DialogResult nuhuhbox = MessageBox.Show("I'm not in the right directory, I go here.\nAfter I close, would you please move me?", "Oculus Kill Switch", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 if (nuhuhbox == DialogResult.OK)
                 {
                     whoops = true;
+                    Console.WriteLine("WRONG LOCATION/DASH NOT PRESENT");
                     Application.Exit();
                 }
             }
@@ -182,10 +184,11 @@ static class Program
             }
             catch (Exception)
             {
-                whoops = true;
                 if (activeFileHash == "9DB7CC8B646A01C60859B318F85E65D0")
                 {
                     MessageBox.Show("Oculus Dash backup couldn't be found. If it's in a different directory, move it here. If you don't have it, you may need to reinstall the Oculus app to get it back.", "Oculus Kill Switch", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    whoops = true;
+                    Console.WriteLine("NO BACKUP");
                 }
                 else if (activeFileHash == "DD65C6B1E5578AE812966798101F1379")
                 {
@@ -222,6 +225,7 @@ static class Program
                     if (result == butCancel)
                     {
                         whoops = true;
+                        Console.WriteLine("WARNING ACKNOWLEDGED");
                         Application.Exit();
                     }
                 }
@@ -240,7 +244,7 @@ static class Program
 
             DialogResult Dialog0;
 
-            if (whoops != true)
+            if (whoops == false)
             {
                 Dialog0 = MessageBox.Show("Toggle Oculus Killer?\n" + "It's currently " + killerEnabled, "Oculus Kill Switch", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
             }
