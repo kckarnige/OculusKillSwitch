@@ -24,6 +24,10 @@
 
 4. That's it, if it closes, run it again and enjoy!
 
+## Code ~~Snatched~~ Borrowed From:
+
+- [ndepoel/OculusTray](https://github.com/ndepoel/OculusTray/blob/93f6dd2147c63c5257c5d648a8243c859870e084/OculusUtil.cs#L28) [MIT License] - Oculus Base directory
+
 ## Libraries Used
 
 - [*Mayerch1/GithubUpdateCheck*](https://github.com/Mayerch1/GithubUpdateCheck) - Used for checking GitHub releases
