@@ -16,7 +16,7 @@ using Microsoft.Win32;
 static class Program
 {
     // #### Oculus Kill Switch Version ####
-    static readonly string AppVersion = "1.6.8";
+    static readonly string AppVersion = "1.7.0";
 
     // #### Credit to @ndepoel ####
     public static DirectoryInfo GetOculusBaseDirectory()
