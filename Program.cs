@@ -9,7 +9,6 @@ using IniParser.Model;
 using Ookii.Dialogs.Wpf;
 using IWshRuntimeLibrary;
 using Mayerch1.GithubUpdateCheck;
-using Microsoft.Win32;
 
 
 
@@ -224,7 +223,7 @@ static class Program
                         {
                             using (WebClient client = new WebClient())
                             {
-                                client.DownloadFile("https://github.com/kaitlyndotmoe/OculusKiller/releases/latest/download/OculusDash.exe", "OculusDash.exe.bak");
+                                client.DownloadFile("https://github.com/irlbunny/OculusKiller/releases/latest/download/OculusDash.exe", "OculusDash.exe.bak");
                             }
 
                         }
