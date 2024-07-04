@@ -3,6 +3,8 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using System.Net;
 using IniParser;
 using IniParser.Model;
@@ -12,13 +14,20 @@ using Mayerch1.GithubUpdateCheck;
 
 
 
+
 static class Program
 {
-    // #### Oculus Kill Switch Version ####
-    static readonly string AppVersion = "1.7.0";
+    // #### Get Current Version ####
+    public static string getVersion()
+    {
+        var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+        version = version.Split("+").First();
+        return version;
+    }
+
 
     // #### Credit to @ndepoel ####
-    public static DirectoryInfo GetOculusBaseDirectory()
+    static DirectoryInfo GetOculusBaseDirectory()
     {
         string OculusBaseVarName = @"OculusBase";
         string oculusBasePath = Environment.GetEnvironmentVariable(OculusBaseVarName);
@@ -38,7 +47,6 @@ static class Program
             byte[] hash = System.IO.File.ReadAllBytes(filePath);
             byte[] hashValue = MD5.HashData(hash);
             return Convert.ToHexString(hashValue);
-
         }
     }
 
@@ -46,12 +54,11 @@ static class Program
     {
         var parser = new FileIniDataParser();
         IniData configdata = parser.ReadFile("OculusKillSwitch.ini");
-        var startupFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        var desktopFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         var shell = new WshShell();
-        var shortCutLinkFilePath = startupFolderPath + "\\Oculus Kill Switch.lnk";
+        var shortCutLinkFilePath = desktopFolderPath + "\\Oculus Kill Switch.lnk";
 
-
-        string[] fileArray = Directory.GetFiles(startupFolderPath);
+        string[] fileArray = Directory.GetFiles(desktopFolderPath);
         List<string> fileHashList = new();
         try
         {
@@ -62,7 +69,7 @@ static class Program
                     TaskDialogButton butYes = new TaskDialogButton(ButtonType.Yes);
                     TaskDialogButton butNo = new TaskDialogButton(ButtonType.No);
                     dialog.WindowTitle = "Oculus Kill Switch";
-                    dialog.Content = "Do you want me to make a shortcut?";
+                    dialog.Content = "Do you want me to make a desktop shortcut?";
                     dialog.MainIcon = TaskDialogIcon.Information;
                     dialog.VerificationText = "Don't Show Again";
                     dialog.Buttons.Add(butYes);
@@ -77,6 +84,59 @@ static class Program
                     if (result == butYes)
                     {
                         configdata["OculusKillSwitch"]["DontShowShortcutDialog"] = "true";
+                        var windowsApplicationShortcut = (IWshShortcut)shell.CreateShortcut(shortCutLinkFilePath);
+                        windowsApplicationShortcut.Description = "Toggle Oculus Killer and play your Oculus games.";
+                        windowsApplicationShortcut.WorkingDirectory = Application.StartupPath;
+                        windowsApplicationShortcut.TargetPath = Application.ExecutablePath;
+                        windowsApplicationShortcut.Save();
+                        parser.WriteFile("OculusKillSwitch.ini", configdata);
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            Application.Exit();
+        }
+
+    }
+
+    //Got lazy
+    static void MakeShortcutStartMenu()
+    {
+        var parser = new FileIniDataParser();
+        IniData configdata = parser.ReadFile("OculusKillSwitch.ini");
+        var startFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu);
+        var shell = new WshShell();
+        var shortCutLinkFilePath = startFolderPath + "\\Programs\\Oculus Kill Switch.lnk";
+
+        string[] fileArray = Directory.GetFiles(startFolderPath);
+        List<string> fileHashList = new();
+        try
+        {
+            if (configdata["OculusKillSwitch"]["DontShowStartShortcutDialog"] != "true")
+            {
+                using (TaskDialog dialog = new TaskDialog())
+                {
+                    TaskDialogButton butYes = new TaskDialogButton(ButtonType.Yes);
+                    TaskDialogButton butNo = new TaskDialogButton(ButtonType.No);
+                    dialog.WindowTitle = "Oculus Kill Switch";
+                    dialog.Content = "Do you want me to make a start menu shortcut?";
+                    dialog.MainIcon = TaskDialogIcon.Information;
+                    dialog.VerificationText = "Don't Show Again";
+                    dialog.Buttons.Add(butYes);
+                    dialog.Buttons.Add(butNo);
+                    dialog.CenterParent = false;
+                    TaskDialogButton result = dialog.ShowDialog();
+                    if (dialog.IsVerificationChecked && result == butNo)
+                    {
+                        configdata["OculusKillSwitch"]["DontShowStartShortcutDialog"] = "true";
+                        parser.WriteFile("OculusKillSwitch.ini", configdata);
+                    }
+                    if (result == butYes)
+                    {
+                        configdata["OculusKillSwitch"]["DontShowStartShortcutDialog"] = "true";
                         var windowsApplicationShortcut = (IWshShortcut)shell.CreateShortcut(shortCutLinkFilePath);
                         windowsApplicationShortcut.Description = "Toggle Oculus Killer and play your Oculus games.";
                         windowsApplicationShortcut.WorkingDirectory = Application.StartupPath;
@@ -122,7 +182,8 @@ static class Program
                 }
             }
         }
-        else {
+        else
+        {
             if (System.IO.File.Exists("OculusKillSwitch.ini") != true)
             {
                 System.IO.File.Create("OculusKillSwitch.ini").Close();
@@ -137,7 +198,7 @@ static class Program
                 parser.WriteFile("OculusKillSwitch.ini", configdata);
             }
         }
-        
+
     }
 
     static void CheckForUpdate()
@@ -149,7 +210,7 @@ static class Program
         var shortCutLinkFilePath = startupFolderPath + "\\Oculus Kill Switch.lnk";
         string[] fileArray = Directory.GetFiles(startupFolderPath);
         GithubUpdateCheck update = new GithubUpdateCheck("kckarnige", "OculusKillSwitch");
-        bool isUpdate = update.IsUpdateAvailable(AppVersion, VersionChange.Revision);
+        bool isUpdate = update.IsUpdateAvailable(getVersion(), VersionChange.Revision);
 
         if (isUpdate && configdata["OculusKillSwitch"]["IgnoreUpdate"] != "true")
         {
@@ -202,11 +263,12 @@ static class Program
                 configdata["OculusKillSwitch"]["OculusDashExecHash"] = activeFileHash;
                 parser.WriteFile("OculusKillSwitch.ini", configdata);
                 MakeShortcut();
+                MakeShortcutStartMenu();
                 try
                 {
                     System.IO.File.Exists("OculusDash.exe.bak");
                     backupFileHash = GetMD5Hash("OculusDash.exe.bak");
-                    
+
                 }
                 catch (Exception)
                 {
