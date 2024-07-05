@@ -107,9 +107,9 @@ static class Program
     {
         var parser = new FileIniDataParser();
         IniData configdata = parser.ReadFile("OculusKillSwitch.ini");
-        var startFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.StartMenu);
+        var startFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), "Programs");
         var shell = new WshShell();
-        var shortCutLinkFilePath = startFolderPath + "\\Programs\\Oculus Kill Switch.lnk";
+        var shortCutLinkFilePath = startFolderPath + "\\Oculus Kill Switch.lnk";
 
         string[] fileArray = Directory.GetFiles(startFolderPath);
         List<string> fileHashList = new();
@@ -122,7 +122,7 @@ static class Program
                     TaskDialogButton butYes = new TaskDialogButton(ButtonType.Yes);
                     TaskDialogButton butNo = new TaskDialogButton(ButtonType.No);
                     dialog.WindowTitle = "Oculus Kill Switch";
-                    dialog.Content = "Do you want me to make a start menu shortcut?";
+                    dialog.Content = "Do you want me to make a start menu shortcut?\n(You'll need to remove the shortcut manually.)";
                     dialog.MainIcon = TaskDialogIcon.Information;
                     dialog.VerificationText = "Don't Show Again";
                     dialog.Buttons.Add(butYes);
