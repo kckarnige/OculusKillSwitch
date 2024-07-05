@@ -11,14 +11,15 @@ using IniParser.Model;
 using Ookii.Dialogs.Wpf;
 using IWshRuntimeLibrary;
 using Mayerch1.GithubUpdateCheck;
+using ThankYouReza;
 
 
 
 
 static class Program
 {
-    // #### Get Current Version ####
-    public static string getVersion()
+// #### Get Current Version ####
+public static string getVersion()
     {
         var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
         version = version.Split("+").First();
@@ -70,7 +71,8 @@ static class Program
                     TaskDialogButton butNo = new TaskDialogButton(ButtonType.No);
                     dialog.WindowTitle = "Oculus Kill Switch";
                     dialog.Content = "Do you want me to make a desktop shortcut?";
-                    dialog.MainIcon = TaskDialogIcon.Information;
+                    dialog.MainIcon = TaskDialogIcon.Custom;
+                    dialog.CustomMainIcon = Icon.FromHandle(NativeMethods.GetModernIcon(NativeMethods.SHSTOCKICONID.SIID_HELP));
                     dialog.VerificationText = "Don't Show Again";
                     dialog.Buttons.Add(butYes);
                     dialog.Buttons.Add(butNo);
@@ -123,7 +125,8 @@ static class Program
                     TaskDialogButton butNo = new TaskDialogButton(ButtonType.No);
                     dialog.WindowTitle = "Oculus Kill Switch";
                     dialog.Content = "Do you want me to make a start menu shortcut?\n(You'll need to remove the shortcut manually.)";
-                    dialog.MainIcon = TaskDialogIcon.Information;
+                    dialog.MainIcon = TaskDialogIcon.Custom;
+                    dialog.CustomMainIcon = Icon.FromHandle(NativeMethods.GetModernIcon(NativeMethods.SHSTOCKICONID.SIID_HELP));
                     dialog.VerificationText = "Don't Show Again";
                     dialog.Buttons.Add(butYes);
                     dialog.Buttons.Add(butNo);

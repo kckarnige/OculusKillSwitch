@@ -16,17 +16,17 @@
 
 ## Installation
 
-1. Download ([x64](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-7.0.12-windows-x64-installer) / [x86](https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-7.0.12-windows-x86-installer)) and install the .NET 7.0 Runtime.
+1. [Download](https://github.com/kckarnige/OculusKillSwitch/releases/latest/download/OculusKillSwitch.exe) Oculus Kill Switch, and move it to where your Oculus Dash is located. If you can't find it, just open OKS and it should direct you to where the folder is.
 
-2. Download ([x64](https://github.com/kckarnige/OculusKillSwitch/releases/latest/download/OculusKillSwitch.exe) / [x86](https://github.com/kckarnige/OculusKillSwitch/releases/latest/download/OculusKillSwitch-x86.exe)) Oculus Kill Switch, and move it to where your Oculus Dash is located, should be at `C:\Program Files\Oculus\Support\oculus-dash\dash\bin` by default.
+2. Run it, it should ask to make a shortcut for you, it should also ask to download [Oculus Killer](https://github.com/kaitlyndotmoe/OculusKiller), if the file doesn't already exist in the directory.
 
-3. Run it, it should ask to make a desktop shortcut for you and ask to download [Oculus Killer](https://github.com/kaitlyndotmoe/OculusKiller) (if you don't already have it installed).
-
-4. That's it, if it closes, run it again and enjoy!
+3. That's it, if it closes, run it again and enjoy!
 
 ## Code ~~Snatched~~ Borrowed From:
 
-- [ndepoel/OculusTray](https://github.com/ndepoel/OculusTray/blob/93f6dd2147c63c5257c5d648a8243c859870e084/OculusUtil.cs#L28) [MIT License] - Oculus Base directory
+- [ndepoel/OculusTray](https://github.com/ndepoel/OculusTray/blob/93f6dd2147c63c5257c5d648a8243c859870e084/OculusUtil.cs#L28) [MIT License] - Code to find the Oculus Base directory
+
+- [Reza Aghaei](https://github.com/r-aghaei) via [StackOverflow](https://stackoverflow.com/a/65594290)
 
 ## Libraries Used
 
