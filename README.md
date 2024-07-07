@@ -2,17 +2,19 @@
 <h3 align="center"></h3>
 <p align="center">
     <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="./oks-banner-dark-readme.png" width="256px">
-        <img alt="iCon" src="./oks-banner-readme.png" width="256px">
+        <source media="(prefers-color-scheme: dark)" srcset="./logo-dark.png" width="256px">
+        <img alt="iCon" src="./logo.png" width="256px">
     </picture> 
 </p>
 <h1 align="center"></h1>
 
-<h3 align="center">Toggle Oculus Killer and play your Oculus games how Zuck intended.</h3>
+<h3 align="center"><i>"Kill the lights, or keep them on."</i> 
+
+Toggle Oculus Killer and play your Oculus games how Zuck intended.</h3>
 
 <br>
 
-> _Keep in mind, this is my first time coding in C#, that being said, if there are any bugs, [submit an issue](https://github.com/kckarnige/OculusKillSwitch/issues), and feel free to make [pull requests](https://github.com/kckarnige/OculusKillSwitch/pulls)._
+> _Keep in mind, this is my first big program in C#, that being said, if there are any bugs, [submit an issue](https://github.com/kckarnige/OculusKillSwitch/issues), and feel free to [contribute](https://github.com/kckarnige/OculusKillSwitch/pulls)._
 
 ## Installation
 
