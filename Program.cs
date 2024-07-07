@@ -271,8 +271,8 @@ static class Program
                 activeFileHash = GetMD5Hash("OculusDash.exe");
                 configdata["OculusKillSwitch"]["OculusDashExecHash"] = activeFileHash;
                 parser.WriteFile("OculusKillSwitch.ini", configdata);
-                MakeShortcut();
                 MakeShortcutStartMenu();
+                MakeShortcut();
                 try
                 {
                     System.IO.File.Exists("OculusDash.exe.bak");
