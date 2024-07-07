@@ -289,7 +289,7 @@ static class Program
                     }
                     else if (activeFileHash == configdata["OculusKillSwitch"]["OculusDashExecHash"])
                     {
-                        DialogResult Dialog1 = MessageBox.Show("The Oculus Killer isn't installed, or the backup file has been renamed. Would you like for me to download it for you?", "Oculus Kill Switch", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                        DialogResult Dialog1 = MessageBox.Show("Oculus Killer isn't installed, or the backup file has been renamed. Would you like for me to download it for you?", "Oculus Kill Switch", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                         if (Dialog1 == DialogResult.Yes)
                         {
                             using (WebClient client = new WebClient())
@@ -300,6 +300,7 @@ static class Program
                         }
                         else
                         {
+                            MessageBox.Show("Oculus Killer needs to be installed for me to do my job.", "Oculus Kill Switch", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             whoops = true;
                             Console.WriteLine("NO KILLER");
                             Application.Exit();
@@ -389,7 +390,7 @@ static class Program
                     System.IO.File.Move("OculusDash.exe.bak", "tempkill.exe");
                     System.IO.File.Move("OculusDash.exe", "OculusDash.exe.bak");
                     System.IO.File.Move("tempkill.exe", "OculusDash.exe");
-                    MessageBox.Show("Successfully enabled the Oculus Killer!", "Oculus Kill Switch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Successfully enabled Oculus Killer!", "Oculus Kill Switch", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
@@ -397,7 +398,7 @@ static class Program
                     System.IO.File.Move("OculusDash.exe.bak", "tempbak.exe");
                     System.IO.File.Move("OculusDash.exe", "OculusDash.exe.bak");
                     System.IO.File.Move("tempbak.exe", "OculusDash.exe");
-                    MessageBox.Show("Successfully disabled the Oculus Killer!", "Oculus Kill Switch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Successfully disabled Oculus Killer!", "Oculus Kill Switch", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
         }
