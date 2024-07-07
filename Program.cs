@@ -1,5 +1,6 @@
 ﻿namespace OculusKillSwitch;
 
+using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Diagnostics;
@@ -18,24 +19,29 @@ using ThankYouReza;
 
 static class Program
 {
-// #### Get Current Version ####
-public static string getVersion()
+    // #### Get Current Version ####
+    public static string getVersion()
     {
         var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
         version = version.Split("+").First();
         return version;
     }
 
+    // #### Make "ThankYouReza" easier to use
+    public static nint GetModernIcon(NativeMethods.SHSTOCKICONID iconHere) => NativeMethods.GetModernIcon(iconHere);
+
+    public static NativeMethods.SHSTOCKICONID IconName(string iconHere) => (NativeMethods.SHSTOCKICONID)Enum.Parse(typeof(NativeMethods.SHSTOCKICONID), iconHere);
+
 
     // #### Credit to @ndepoel ####
     static DirectoryInfo GetOculusBaseDirectory()
     {
         string OculusBaseVarName = @"OculusBase";
-        string oculusBasePath = Environment.GetEnvironmentVariable(OculusBaseVarName);
-        if (oculusBasePath == null)
+        string OculusBasePath = Environment.GetEnvironmentVariable(OculusBaseVarName);
+        if (OculusBasePath == null)
             return null;
 
-        return Directory.Exists(oculusBasePath) ? new DirectoryInfo(oculusBasePath) : null;
+        return Directory.Exists(OculusBasePath) ? new DirectoryInfo(OculusBasePath) : null;
     }
 
     static string GetMD5Hash(string filePath)
@@ -72,7 +78,7 @@ public static string getVersion()
                     dialog.WindowTitle = "Oculus Kill Switch";
                     dialog.Content = "Do you want me to make a desktop shortcut?";
                     dialog.MainIcon = TaskDialogIcon.Custom;
-                    dialog.CustomMainIcon = Icon.FromHandle(NativeMethods.GetModernIcon(NativeMethods.SHSTOCKICONID.SIID_HELP));
+                    dialog.CustomMainIcon = Icon.FromHandle(GetModernIcon(IconName("SIID_HELP")));
                     dialog.VerificationText = "Don't Show Again";
                     dialog.Buttons.Add(butYes);
                     dialog.Buttons.Add(butNo);
@@ -126,7 +132,7 @@ public static string getVersion()
                     dialog.WindowTitle = "Oculus Kill Switch";
                     dialog.Content = "Do you want me to make a start menu shortcut?\n(You'll need to remove the shortcut manually.)";
                     dialog.MainIcon = TaskDialogIcon.Custom;
-                    dialog.CustomMainIcon = Icon.FromHandle(NativeMethods.GetModernIcon(NativeMethods.SHSTOCKICONID.SIID_HELP));
+                    dialog.CustomMainIcon = Icon.FromHandle(GetModernIcon(IconName("SIID_HELP")));
                     dialog.VerificationText = "Don't Show Again";
                     dialog.Buttons.Add(butYes);
                     dialog.Buttons.Add(butNo);
