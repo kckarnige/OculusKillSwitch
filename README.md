@@ -16,6 +16,12 @@ Toggle Oculus Killer and play your Oculus games how Zuck intended.</h3>
 
 > _Keep in mind, this is my first big program in C#, that being said, if there are any bugs, [submit an issue](https://github.com/kckarnige/OculusKillSwitch/issues), and feel free to [contribute](https://github.com/kckarnige/OculusKillSwitch/pulls)._
 
+<p align="center">
+    <a href="https://www.buymeacoffee.com/kckarnige">
+        <img width="222" alt="bmc-button" src="https://github.com/kckarnige/kckarnige/assets/32397453/8da1edcc-2c3b-4628-8d82-4b53025a16ee">
+    </a>
+</p>
+
 ## Installation
 
 1. [Download](https://github.com/kckarnige/OculusKillSwitch/releases/latest/download/OculusKillSwitch.exe) Oculus Kill Switch, and move it to where your Oculus Dash is located. If you can't find it, just open OKS and it should direct you to where the folder is.
