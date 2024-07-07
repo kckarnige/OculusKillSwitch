@@ -2,13 +2,13 @@
 <h3 align="center"></h3>
 <p align="center">
     <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="./icon-dark.png" width="256px">
-        <img alt="iCon" src="./icon.png" width="256px">
+        <source media="(prefers-color-scheme: dark)" srcset="./oks-banner-dark-readme.png" width="256px">
+        <img alt="iCon" src="./oks-banner-readme.png" width="256px">
     </picture> 
 </p>
-<h1 align="center">Oculus Kill Switch</h1>
+<h1 align="center"></h1>
 
-<h3 align="center">"Kill the lights or keep them on." Toggle Oculus Killer and play your Oculus games how Zuck intended.</h3>
+<h3 align="center">Toggle Oculus Killer and play your Oculus games how Zuck intended.</h3>
 
 <br>
 
