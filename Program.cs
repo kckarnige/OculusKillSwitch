@@ -27,10 +27,6 @@ static class Program
         return version;
     }
 
-    // #### Make "ThankYouReza" easier to use
-    public static nint GetModernIcon(string iconHere) => (nint)NativeMethods.GetModernIcon((NativeMethods.SHSTOCKICONID)Enum.Parse(typeof(NativeMethods.SHSTOCKICONID), iconHere));
-
-
     // #### Credit to @ndepoel ####
     static DirectoryInfo GetOculusBaseDirectory()
     {
@@ -76,7 +72,7 @@ static class Program
                     dialog.WindowTitle = "Oculus Kill Switch";
                     dialog.Content = "Do you want me to make a desktop shortcut?";
                     dialog.MainIcon = TaskDialogIcon.Custom;
-                    dialog.CustomMainIcon = Icon.FromHandle(GetModernIcon("SIID_HELP"));
+                    dialog.CustomMainIcon = Icon.FromHandle(NM.GetModernIcon("SIID_HELP"));
                     dialog.VerificationText = "Don't Show Again";
                     dialog.Buttons.Add(butYes);
                     dialog.Buttons.Add(butNo);
@@ -130,7 +126,7 @@ static class Program
                     dialog.WindowTitle = "Oculus Kill Switch";
                     dialog.Content = "Do you want me to make a start menu shortcut?\n(You'll need to remove the shortcut manually.)";
                     dialog.MainIcon = TaskDialogIcon.Custom;
-                    dialog.CustomMainIcon = Icon.FromHandle(GetModernIcon("SIID_HELP"));
+                    dialog.CustomMainIcon = Icon.FromHandle(NM.GetModernIcon("SIID_HELP"));
                     dialog.VerificationText = "Don't Show Again";
                     dialog.Buttons.Add(butYes);
                     dialog.Buttons.Add(butNo);

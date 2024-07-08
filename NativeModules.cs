@@ -1,9 +1,10 @@
 ﻿namespace ThankYouReza;
+// ### Thank you Reza :) ###
 // https://stackoverflow.com/a/65594290
 using System;
 using System.Runtime.InteropServices;
 
-public class NativeMethods
+public class NM
 {
     public const int MAX_PATH = 260;
 
@@ -135,5 +136,8 @@ public class NativeMethods
         SHGetStockIconInfo(iconHere, SHGSI.SHGSI_ICON, ref sii);
         return sii.hIcon;
     }
+
+    // ### Make it easier to use ###
+    public static nint GetModernIcon(string iconHere) => (nint)NativeMethods.GetModernIcon((NativeMethods.SHSTOCKICONID)Enum.Parse(typeof(NativeMethods.SHSTOCKICONID), iconHere));
 }
 
