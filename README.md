@@ -8,7 +8,7 @@
 </p>
 <h1 align="center"></h1>
 
-<h3 align="center"><i>"Kill the lights, or keep them on."</i> 
+<h3 align="center"><i>"Kill the lights till you need them again."</i> 
 
 Toggle Oculus Killer and play your Oculus games how Zuck intended.</h3>
 
