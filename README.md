@@ -8,7 +8,7 @@
 </p>
 <h1 align="center"></h1>
 
-<h3 align="center"><i>"Kill the lights till you need them again."</i> 
+<h3 align="center"><i>"'til you need them again."</i> 
 
 For those who have Oculus and SteamVR games that want to enjoy both libraries.</h3>
 
