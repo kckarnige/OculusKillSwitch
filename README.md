@@ -1,4 +1,6 @@
 
+<h2 align="center">Check out my <a href="https://github.com/kckarnige/OculusDummy">sister project</a>!</h2>
+
 <h3 align="center"></h3>
 <p align="center">
     <picture>
