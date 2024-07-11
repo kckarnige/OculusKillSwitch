@@ -10,7 +10,7 @@
 
 <h3 align="center"><i>"Kill the lights till you need them again."</i> 
 
-Toggle Oculus Killer and play your Oculus games how Zuck intended.</h3>
+For those who have Oculus and SteamVR games that want to enjoy both libraries.</h3>
 
 <br>
 
